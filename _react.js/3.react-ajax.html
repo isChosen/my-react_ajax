@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React-ajax</title>
+    <link rel="stylesheet" href="css/reset.css" />
+</head>
+<body>
+    <div id="container"></div>
+
+    <script src="libs/react.min.js"></script>
+    <script src="libs/react-dom.min.js"></script>
+    <script src="libs/browser.min.js"></script>
+    <script src="libs/jquery-1.12.3.min.js"></script>
+
+    <script type="text/babel">
+        var CarouselBanner = React.createClass({
+            getInitialState: function() {
+                return {
+                    data: []
+                }
+            },
+            componentDidMount: function() {
+                $.ajax({
+                    url: this.props.url,
+                    type: 'GET',
+                    async: true,
+                    dataType: 'json',
+                    success: function(result) {
+                        if (this.isMounted) {
+                            this.setState({data: result});
+                        }
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                        console.log(this.props.url, status, err.toString());
+                    }.bind(this)
+                });
+            },
+            render: function() {
+                return (
+                    <div>
+                        <h2>Hello React and Ajax!</h2>
+                        <ul className="clearfix">
+                            {
+                                this.state.data.map(function(item, index) {
+                                    return (<li key={index}><a href={item.linkTo}><img src={item.imgSrc} alt={item.imgTitle} title={item.imgTitle} /></a></li>)
+                                })
+                            }
+                        </ul>
+                    </div>
+                )
+            }
+        });
+
+        ReactDOM.render(
+            <CarouselBanner url ="mocks/tsconfig.json" />,
+            document.getElementById('container')
+        )
+    </script>
+</body>
+</html>

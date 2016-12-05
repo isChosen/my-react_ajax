@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>React-state</title>
+	<style>
+		.lkt {
+			font-size: 16px;
+			font-weight: bold;
+			text-decoration: underline;
+			color: #a10;
+		}
+		.plt {
+			font-weight: bold;
+			color: #a06;
+		}
+	</style>
+</head>
+<body>
+	<div id="sdt"></div>
+
+	<script src="libs/react.js"></script>
+	<script src="libs/react-dom.js"></script>
+	<script src="libs/browser.min.js"></script>
+
+	<script type="text/babel">
+		var Hit = React.createClass({
+            getInitialState: function(){
+                return {
+				    _like: false,
+					words: 'enter something'
+				}
+            },
+            render: function() {
+				/*点击修改状态 和 模拟双向数据绑定*/
+            var text = this.state._like ? 'like' : 'dislike';
+            return (
+					<div>
+						<input type="checkbox" onChange={this.handlerClick} />your&nbsp;<span className="lkt">{text}</span>&nbsp;tomato ?
+						<br/>
+						<br/>
+						<input id="myIpt" type="text" value={this.state.words} onChange={this.handlerChange} />
+						<p>myIpt value:  <span className="plt">{this.state.words}</span></p>
+					</div>
+				);
+			},
+            handlerClick: function(e) {
+                this.setState ({_like: !this.state._like})
+            },
+			handlerChange: function(e) {
+			    this.setState ({
+                    words: e.target.value
+				})
+			}
+		});
+		ReactDOM.render(
+			<Hit />,
+			document.getElementById("sdt")
+		)
+	</script>
+</body>
+</html>

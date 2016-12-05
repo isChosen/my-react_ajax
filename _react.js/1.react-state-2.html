@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>React-state -addon</title>
+	<style>
+		.lkt {
+			font-size: 16px;
+			font-weight: bold;
+			text-decoration: underline;
+			color: #a10;
+		}
+		.plt {
+			font-weight: bold;
+			color: #a06;
+		}
+	</style>
+</head>
+<body>
+	<div id="sdt"></div>
+
+	<script src="libs/react-with-addons.min.js"></script>
+	<script src="libs/react-dom.js"></script>
+	<script src="libs/browser.min.js"></script>
+
+	<script type="text/babel">
+		var Hit = React.createClass({
+		    mixins: [React.addons.LinkedStateMixin],
+            getInitialState: function(){
+                return {
+				    _like: false,
+					words: 'enter something'
+				}
+            },
+            render: function() {
+				/*点击修改状态 和 使用插件模拟双向数据绑定*/
+            var text = this.state._like ? 'like' : 'dislike';
+            return (
+                    <div>
+						<input type="checkbox" onChange={this.handlerClick} />your&nbsp;<span className="lkt">{text}</span>&nbsp;tomato ?
+						<br/>
+						<br/>
+						<input id="myIpt" type="text" valueLink={this.linkState('words')} />
+						<p>myIpt value:  <span className="plt">{this.state.words}</span></p>
+					</div>
+				);
+			},
+            handlerClick: function(e) {
+                this.setState ({_like: !this.state._like})
+            }
+		});
+		ReactDOM.render(
+			<Hit />,
+			document.getElementById("sdt")
+		)
+	</script>
+</body>
+</html>
